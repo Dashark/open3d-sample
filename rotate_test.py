@@ -72,7 +72,7 @@ for azimuth in azimuthes:
 # 使用 irmatrix 把理论点云的所有点在变换
 
 # 创建一个二维数组
-arr = np.array([[3, 5, 2], [6, 1, 4]])
+arr = np.array([[0, 0.1, 2], [0, 0.2, 4], [0, 1.3, 6], [0, 1.4, 8], [0, 2.5, 10]])
 
 # 按行排序（axis=1）
 sorted_arr_row = np.sort(arr, axis=1)
