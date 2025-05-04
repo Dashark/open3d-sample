@@ -15,7 +15,7 @@ def transformed_supports_points_comparing(model_file_path, compared_points):
         key = (round(point[0], 2), round(point[1], 2)) # 使用舍入值作为键以处理浮点误差
         if key not in radar_points_dict:
             radar_points_dict[key] = []
-        radar_points_dict[key].append(point[2])
+        radar_points_dict[key].append(point[2])   # 雷达点云的角度字典，可能有多个点
     
     best_file = ""
     #transformed_file_folder = file.parent / file.stem
@@ -61,6 +61,31 @@ def transformed_supports_points_comparing(model_file_path, compared_points):
         data = str(Path(best_file).stem).split('_')
         f.write(f'{data[0]}, {data[3]}, {data[4]}\n')
 """
+
+"""
+    计算理论点云与雷达点云的距离
+    1. 理论点云由球面坐标转换直角坐标
+    2. 雷达点云由球面坐标转换直角坐标
+    3. 计算理论点云与雷达点云的ICP，只能优化Z
+    理论点云粗略平移和旋转，然后与雷达点云做Z轴的匹配ICP。
+    理论点云降低高度z，顶板面积不变，扫描线不变，计算新高度下顶板的扫描线。一种变换，升高或降低高度后，还是一次Z轴的平移变换，以Z轴为目标的ICP。只是结果不是扫描线的物理属性。
+"""
+def distance_roof_Z(model_points, radar_points):
+    """
+    Calculate the cumulative absolute difference in the z-coordinate between corresponding points
+    in two sets of 3D points. Corresponding points are determined by matching theta and phi coordinates.
+
+    Args:
+        model_points (numpy.ndarray): [x, y, z]. 理论点云
+        radar_points (numpy.ndarray): [x, y, z]. 雷达点云
+
+    Returns:
+        int: 有多少个Z轴对应点.
+    """
+    # Initialize the cumulative distance to 0
+    distance = 0
+    return distance
+
 def distance_roof_points(model_points, radar_points_dict):
     """
     Calculate the cumulative absolute difference in the r-coordinate between corresponding points
