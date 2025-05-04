@@ -99,13 +99,16 @@ def main():
     for file in simulated_model_files:
         transformed_points_cloud = o3d.io.read_point_cloud(str(file))
         transformed_points = np.asarray(transformed_points_cloud.points)
-        spherical_transformed_points = cartesian_to_spherical2(transformed_points)
-        intered = interpolate_spherical_points(spherical_transformed_points)
-        print(len(intered), len(spherical_transformed_points))
-        spherical_path = str(file.parent) + "/" + str(file.stem) + "_spherical.pcd"
-        pcd_spherical = o3d.geometry.PointCloud()
-        pcd_spherical.points = o3d.utility.Vector3dVector(np.append(spherical_transformed_points, intered, axis=0))
-        o3d.io.write_point_cloud(spherical_path, pcd_spherical)
+        for i in range(1, 5):
+            spherical_transformed_points = cartesian_to_spherical2(transformed_points)
+            intered = interpolate_spherical_points(spherical_transformed_points)
+            print(len(intered), len(spherical_transformed_points))
+            spherical_path = str(file.parent) + "/" + str(file.stem) + "_" + str(i) + "_spherical.pcd"
+            pcd_spherical = o3d.geometry.PointCloud()
+            pcd_spherical.points = o3d.utility.Vector3dVector(np.append(spherical_transformed_points, intered, axis=0))
+            o3d.io.write_point_cloud(spherical_path, pcd_spherical)
+            # 降低高度5cm
+            transformed_points[:, 2] = transformed_points[:, 2] - 0.05
 
 if __name__ == "__main__":
     main()
