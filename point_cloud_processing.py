@@ -1154,7 +1154,7 @@ def preprocess_points(file_folder: str):
     second_irmatrix = []
     for azimuth in azimuthes:
         # X轴绕Z轴旋转得到向量
-        azimuth -= (azimuth + 90) % 360  # 在XY平面的法向量的角度
+        azimuth = (azimuth + 90) % 360  # 在XY平面的法向量的角度
         normal_tilt = rotate_point_around_vector(
             vector_x, vector_z, np.pi * azimuth / 180
         )
